@@ -12,6 +12,7 @@ import MonthChart from "../components/MonthChart";
 import OwnershipChart from "../components/OwnershipChart";
 import TopChurnChart from "../components/TopChurnChart";
 import GrowthChart from "../components/GrowthChart";
+import Collapsible from "../components/Collapsible";
 import { fmtDateTime } from "../lib/format";
 
 const TABS: { key: string; title: string; ownership?: boolean }[] = [
@@ -292,36 +293,50 @@ export default function Home() {
               {breakdown ? (
                 tab === "month" ? (
                   <>
-                    <MonthChart items={breakdown.items} />
-                    <GrowthChart items={breakdown.items} />
-                    <BreakdownTable items={breakdown.items} showOwnership={false}
-                                   emptyLabel="Nothing changed in this period." />
+                    <Collapsible title="Churn by month">
+                      <MonthChart items={breakdown.items} />
+                    </Collapsible>
+                    <Collapsible title="Cumulative growth" defaultOpen={false}>
+                      <GrowthChart items={breakdown.items} />
+                    </Collapsible>
+                    <Collapsible title="Month breakdown table">
+                      <BreakdownTable items={breakdown.items} showOwnership={false}
+                                     emptyLabel="Nothing changed in this period." />
+                    </Collapsible>
                   </>
                 ) : tab === "author" ? (
                   <>
-                    <OwnershipChart items={breakdown.items} />
-                    <BreakdownTable
-                      items={breakdown.items}
-                      showOwnership
-                      emptyLabel="No authors found for these filters."
-                    />
+                    <Collapsible title="Ownership distribution">
+                      <OwnershipChart items={breakdown.items} />
+                    </Collapsible>
+                    <Collapsible title="Author breakdown table">
+                      <BreakdownTable
+                        items={breakdown.items}
+                        showOwnership
+                        emptyLabel="No authors found for these filters."
+                      />
+                    </Collapsible>
                   </>
                 ) : (
                   <>
-                    <TopChurnChart
-                      items={breakdown.items}
-                      label={tab === "file" ? "Top files by churn" : "Top objects by churn"}
-                    />
-                    <BreakdownTable
-                      items={breakdown.items}
-                      showOwnership={false}
-                      onPickPath={
-                        tab === "child" || tab === "file"
-                          ? (p) => { setFilters((f) => ({ ...f, object_path: p })); setTab("child"); }
-                          : undefined
-                      }
-                      emptyLabel="Nothing changed under these filters."
-                    />
+                    <Collapsible title={tab === "file" ? "Top files by churn" : "Top objects by churn"}>
+                      <TopChurnChart
+                        items={breakdown.items}
+                        label={tab === "file" ? "Top files by churn" : "Top objects by churn"}
+                      />
+                    </Collapsible>
+                    <Collapsible title="Breakdown table">
+                      <BreakdownTable
+                        items={breakdown.items}
+                        showOwnership={false}
+                        onPickPath={
+                          tab === "child" || tab === "file"
+                            ? (p) => { setFilters((f) => ({ ...f, object_path: p })); setTab("child"); }
+                            : undefined
+                        }
+                        emptyLabel="Nothing changed under these filters."
+                      />
+                    </Collapsible>
                   </>
                 )
               ) : (

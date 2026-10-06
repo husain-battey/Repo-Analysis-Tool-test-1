@@ -5,8 +5,8 @@
   --bg:          #f5e8c9;   /* surface-light, cream page background */
   --panel:       #d3bf96;   /* surface, tan panels */
   --panel-2:     #e8d8b2;   /* between surface and surface-light */
-  --sidebar-bg:  #9e7969;   /* bg (warm medium brown) */
-  --sidebar-text:#f5e8c9;   /* surface-light on medium brown */
+  --sidebar-bg:  #4a3018;   /* ink — dark enough for cream text to pop */
+  --sidebar-text:#f5e8c9;   /* surface-light */
   --border:      #4a3018;   /* ink */
   --border-dark: #4a3018;
   --text:        #4a3018;   /* ink */
@@ -67,16 +67,16 @@ a {
 }
 
 .sidebar .muted {
-  color: rgba(74, 48, 24, 0.65);
+  color: rgba(245, 232, 201, 0.6);
 }
 
 .sidebar .section-title {
-  color: rgba(74, 48, 24, 0.55);
+  color: rgba(245, 232, 201, 0.5);
 }
 
 .sidebar .btn {
-  background: rgba(255,255,255,0.18);
-  border-color: rgba(74, 48, 24, 0.4);
+  background: rgba(245, 232, 201, 0.1);
+  border-color: rgba(245, 232, 201, 0.35);
   color: var(--sidebar-text);
 }
 
@@ -86,9 +86,9 @@ a {
 }
 
 .sidebar .field {
-  background: rgba(255,255,255,0.2);
-  border-color: rgba(74, 48, 24, 0.4);
-  color: var(--ink);
+  background: rgba(245, 232, 201, 0.1);
+  border-color: rgba(245, 232, 201, 0.35);
+  color: var(--sidebar-text);
 }
 
 .sidebar .field:focus {
@@ -96,42 +96,42 @@ a {
 }
 
 .sidebar .field::placeholder {
-  color: rgba(74, 48, 24, 0.5);
+  color: rgba(245, 232, 201, 0.45);
 }
 
 .sidebar .repo-item {
-  background: rgba(255,255,255,0.18);
-  border-color: rgba(74, 48, 24, 0.35);
-  color: var(--ink);
+  background: rgba(245, 232, 201, 0.08);
+  border-color: rgba(245, 232, 201, 0.3);
+  color: var(--sidebar-text);
 }
 
 .sidebar .repo-item.active {
   border-color: var(--accent);
-  background: rgba(200, 70, 48, 0.18);
+  background: rgba(200, 70, 48, 0.25);
 }
 
 .sidebar .repo-item .name {
-  color: var(--ink);
+  color: var(--sidebar-text);
 }
 
 .sidebar .repo-item .meta {
-  color: rgba(74, 48, 24, 0.6);
+  color: rgba(245, 232, 201, 0.6);
 }
 
 .sidebar .error {
-  color: var(--red);
+  color: #ff9999;
 }
 
 .sidebar .small.muted {
-  color: rgba(74, 48, 24, 0.55);
+  color: rgba(245, 232, 201, 0.5);
 }
 
 .sidebar .progress {
-  background: rgba(74, 48, 24, 0.2);
+  background: rgba(245, 232, 201, 0.15);
 }
 
 .sidebar .link-btn {
-  color: var(--tab-active);
+  color: var(--amber);
 }
 
 .main {

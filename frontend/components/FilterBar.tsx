@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import type { Author, Filters } from "../lib/types";
 import { fmtDate, dateToTs } from "../lib/format";
 import TreeBrowser from "./TreeBrowser";
+import RefInput from "./RefInput";
 
 /** Author picker: searchable checkbox list, closed by the transparent backdrop. */
 function AuthorPicker({
@@ -175,13 +176,10 @@ export default function FilterBar({
           Root
         </button>
 
-        <input
-          className="field"
-          style={{ width: 150 }}
+        <RefInput
+          repoId={repoId}
           value={filters.ref}
-          placeholder="ref (HEAD, tag, sha)"
-          onChange={(e) => onChange({ ref: e.target.value })}
-          title="Reference commit: H̄ is the non-merge history reachable from here"
+          onChange={(v) => onChange({ ref: v })}
         />
 
         <AuthorPicker

@@ -11,6 +11,7 @@ import MergePanel from "../components/MergePanel";
 import MonthChart from "../components/MonthChart";
 import OwnershipChart from "../components/OwnershipChart";
 import TopChurnChart from "../components/TopChurnChart";
+import GrowthChart from "../components/GrowthChart";
 import { fmtDateTime } from "../lib/format";
 
 const TABS: { key: string; title: string; ownership?: boolean }[] = [
@@ -167,7 +168,12 @@ export default function Home() {
       const list = await api.repos();
       setRepos(list);
       setSelectedId((cur) => {
+        // Keep current selection if still ready; otherwise restore from localStorage
+        // or auto-pick the first ready repo.
         if (cur && list.some((r) => r.id === cur && r.status === "ready")) return cur;
+        const saved = typeof window !== "undefined" ? localStorage.getItem("rat_repo") : null;
+        const savedReady = saved && list.some((r) => r.id === saved && r.status === "ready");
+        if (savedReady) return saved!;
         const firstReady = list.find((r) => r.status === "ready");
         return firstReady ? firstReady.id : null;
       });
@@ -223,7 +229,11 @@ export default function Home() {
         <RepoPanel
           repos={repos}
           selectedId={selectedId}
-          onSelect={(id) => { setSelectedId(id); setFilters(EMPTY_FILTERS); }}
+          onSelect={(id) => {
+            setSelectedId(id);
+            setFilters(EMPTY_FILTERS);
+            try { localStorage.setItem("rat_repo", id); } catch { /* safari private */ }
+          }}
           onRefresh={refreshRepos}
         />
       </aside>
@@ -283,6 +293,7 @@ export default function Home() {
                 tab === "month" ? (
                   <>
                     <MonthChart items={breakdown.items} />
+                    <GrowthChart items={breakdown.items} />
                     <BreakdownTable items={breakdown.items} showOwnership={false}
                                    emptyLabel="Nothing changed in this period." />
                   </>

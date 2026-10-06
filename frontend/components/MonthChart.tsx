@@ -35,8 +35,7 @@ export default function MonthChart({ items }: { items: BreakdownItem[] }) {
   }));
 
   return (
-    <div style={{ marginTop: 12 }}>
-      <div className="section-title" style={{ marginBottom: 8 }}>Churn by month (added / removed)</div>
+    <div>
       <ResponsiveContainer width="100%" height={220}>
         <BarChart data={data} margin={{ top: 0, right: 12, bottom: 0, left: 0 }}
                   barCategoryGap="20%">

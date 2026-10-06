@@ -256,6 +256,11 @@ export default function Home() {
                 {repo.head ? repo.head.slice(0, 10) : ""} · {repo.source}
                 {repo.analyzed_in ? ` · indexed in ${repo.analyzed_in.toFixed(1)}s` : ""}
               </span>
+              {metrics && (
+                <span className="chip" title="Commit set size |H| for current filters">
+                  |H| = {metrics.commit_count.toLocaleString()}
+                </span>
+              )}
               {busy && <span className="spinner" title="recomputing" />}
               <div style={{ marginLeft: "auto" }}>
                 <button className="btn small" onClick={() => setShowMerge(true)}
@@ -320,10 +325,7 @@ export default function Home() {
                 ) : (
                   <>
                     <Collapsible title={tab === "file" ? "Top files by churn" : "Top objects by churn"}>
-                      <TopChurnChart
-                        items={breakdown.items}
-                        label={tab === "file" ? "Top files by churn" : "Top objects by churn"}
-                      />
+                      <TopChurnChart items={breakdown.items} />
                     </Collapsible>
                     <Collapsible title="Breakdown table">
                       <BreakdownTable

@@ -55,8 +55,8 @@ export default function TopChurnChart({
   const maxChurn = data[0]?.churn ?? 1;
 
   return (
-    <div style={{ marginTop: 12 }}>
-      <div className="section-title" style={{ marginBottom: 4 }}>{label}</div>
+    <div>
+      {label && <div className="section-title" style={{ marginBottom: 4 }}>{label}</div>}
       <ResponsiveContainer width="100%" height={Math.max(180, data.length * 28 + 20)}>
         <BarChart
           data={data}

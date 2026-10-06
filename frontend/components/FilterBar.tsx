@@ -6,6 +6,14 @@ import { fmtDate, dateToTs } from "../lib/format";
 import TreeBrowser from "./TreeBrowser";
 import RefInput from "./RefInput";
 
+const NOW = () => Math.floor(Date.now() / 1000);
+const PRESETS = [
+  { label: "30d",  from: () => NOW() - 30 * 86400,  to: null },
+  { label: "90d",  from: () => NOW() - 90 * 86400,  to: null },
+  { label: "1y",   from: () => NOW() - 365 * 86400, to: null },
+  { label: "All",  from: null,                       to: null },
+];
+
 /** Author picker: searchable checkbox list, closed by the transparent backdrop. */
 function AuthorPicker({
   authors,
@@ -210,6 +218,26 @@ export default function FilterBar({
           value={toValue}
           onChange={(e) => onChange({ to_ts: dateToTs(e.target.value, true) })}
         />
+        <div className="row" style={{ gap: 3 }}>
+          {PRESETS.map((p) => {
+            const active =
+              p.label === "All"
+                ? filters.from_ts === null && filters.to_ts === null
+                : false;
+            return (
+              <button
+                key={p.label}
+                className={`btn small${active ? " primary" : ""}`}
+                title={p.label === "All" ? "Clear date filter" : `Last ${p.label}`}
+                onClick={() =>
+                  onChange({ from_ts: p.from ? p.from() : null, to_ts: p.to })
+                }
+              >
+                {p.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       <div className="row wrap" style={{ gap: 6, marginTop: 10 }}>

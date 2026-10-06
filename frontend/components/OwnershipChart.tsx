@@ -67,8 +67,7 @@ export default function OwnershipChart({ items }: { items: BreakdownItem[] }) {
   ].filter((d) => d.value > 0);
 
   return (
-    <div style={{ marginTop: 12 }}>
-      <div className="section-title" style={{ marginBottom: 4 }}>Ownership distribution</div>
+    <div>
       <ResponsiveContainer width="100%" height={260}>
         <PieChart>
           <Pie

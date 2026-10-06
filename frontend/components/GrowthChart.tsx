@@ -46,10 +46,7 @@ export default function GrowthChart({ items }: { items: BreakdownItem[] }) {
   const domain: [number, number] = [-max * 1.1, max * 1.1];
 
   return (
-    <div style={{ marginTop: 14 }}>
-      <div className="section-title" style={{ marginBottom: 4 }}>
-        Cumulative net growth (lines)
-      </div>
+    <div>
       <ResponsiveContainer width="100%" height={160}>
         <AreaChart data={data} margin={{ top: 4, right: 12, bottom: 0, left: 0 }}>
           <defs>

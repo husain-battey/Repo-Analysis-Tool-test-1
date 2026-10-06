@@ -21,6 +21,12 @@ export default function MergePanel({ repoId, onClose }: { repoId: string; onClos
   const [query, setQuery] = useState("");
 
   useEffect(() => {
+    const handler = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+
+  useEffect(() => {
     let live = true;
     setBusy(true);
     Promise.all([api.authors(repoId), api.getMerge(repoId)])

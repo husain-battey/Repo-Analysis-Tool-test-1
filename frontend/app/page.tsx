@@ -44,6 +44,12 @@ function CommitPicker({
   const [page, setPage] = useState(0);
   const PAGE = 50;
 
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+
   const load = useCallback(async (q: string, offset: number) => {
     setBusy(true);
     try {

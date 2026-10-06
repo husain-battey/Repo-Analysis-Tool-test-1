@@ -38,6 +38,12 @@ export default function TreeBrowser({
       .finally(() => setBusy(false));
   }
 
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+
   useEffect(() => { navigate(""); }, [repoId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (

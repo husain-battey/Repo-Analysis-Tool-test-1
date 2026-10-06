@@ -7,9 +7,10 @@
   --panel-2:     #e8d8b2;   /* between surface and surface-light */
   --sidebar-bg:  #3b2412;   /* tape-strip-bg — dark chocolate sidebar */
   --sidebar-text:#d3bf96;   /* surface on dark sidebar */
-  --border:      rgba(74, 48, 24, 0.28);   /* ink at low opacity */
-  --border-dark: rgba(74, 48, 24, 0.55);
+  --border:      #4a3018;   /* ink */
+  --border-dark: #4a3018;
   --text:        #4a3018;   /* ink */
+  --ink:         #4a3018;
   --muted:       #7a5835;   /* medium warm brown */
   --accent:      #c84630;   /* primary-red — main interactive colour */
   --accent-soft: rgba(200, 70, 48, 0.12);

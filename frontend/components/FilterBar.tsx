@@ -100,6 +100,7 @@ export default function FilterBar({
 }) {
   const [pathDraft, setPathDraft] = useState(filters.object_path);
   const [showTree, setShowTree] = useState(false);
+  const pathTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const fromValue = filters.from_ts ? fmtDate(filters.from_ts) : "";
   const toValue = filters.to_ts ? fmtDate(filters.to_ts) : "";
@@ -148,8 +149,18 @@ export default function FilterBar({
           style={{ width: 260 }}
           value={pathDraft}
           placeholder="file or directory path (empty = repository)"
-          onChange={(e) => setPathDraft(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && onChange({ object_path: pathDraft.trim() })}
+          onChange={(e) => {
+            const p = e.target.value;
+            setPathDraft(p);
+            if (pathTimer.current) clearTimeout(pathTimer.current);
+            pathTimer.current = setTimeout(() => onChange({ object_path: p.trim() }), 600);
+          }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              if (pathTimer.current) clearTimeout(pathTimer.current);
+              onChange({ object_path: pathDraft.trim() });
+            }
+          }}
           title="Filter metrics to one file or directory"
         />
         <button

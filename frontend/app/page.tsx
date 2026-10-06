@@ -12,6 +12,7 @@ import MonthChart from "../components/MonthChart";
 import OwnershipChart from "../components/OwnershipChart";
 import TopChurnChart from "../components/TopChurnChart";
 import GrowthChart from "../components/GrowthChart";
+import CommitActivityChart from "../components/CommitActivityChart";
 import Collapsible from "../components/Collapsible";
 import { fmtDateTime } from "../lib/format";
 
@@ -304,6 +305,9 @@ export default function Home() {
               {breakdown ? (
                 tab === "month" ? (
                   <>
+                    <Collapsible title="Commits per month">
+                      <CommitActivityChart items={breakdown.items} />
+                    </Collapsible>
                     <Collapsible title="Churn by month">
                       <MonthChart items={breakdown.items} />
                     </Collapsible>

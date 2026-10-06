@@ -124,7 +124,9 @@ export default function RepoPanel({
               <div style={{ width: `${pct}%` }} />
             </div>
             <div className="small muted" style={{ marginTop: 5 }}>
-              {job.phase} — {job.message} ({pct}%)
+              {job.phase === "cloning" && pct <= 3
+                ? <>Downloading repository&hellip; large repos can take several minutes</>
+                : <>{job.phase} — {job.message} ({pct}%)</>}
             </div>
           </div>
         )}

@@ -9,6 +9,8 @@ import MetricCards from "../components/MetricCards";
 import BreakdownTable from "../components/BreakdownTable";
 import MergePanel from "../components/MergePanel";
 import MonthChart from "../components/MonthChart";
+import OwnershipChart from "../components/OwnershipChart";
+import TopChurnChart from "../components/TopChurnChart";
 import { fmtDateTime } from "../lib/format";
 
 const TABS: { key: string; title: string; ownership?: boolean }[] = [
@@ -284,17 +286,32 @@ export default function Home() {
                     <BreakdownTable items={breakdown.items} showOwnership={false}
                                    emptyLabel="Nothing changed in this period." />
                   </>
+                ) : tab === "author" ? (
+                  <>
+                    <OwnershipChart items={breakdown.items} />
+                    <BreakdownTable
+                      items={breakdown.items}
+                      showOwnership
+                      emptyLabel="No authors found for these filters."
+                    />
+                  </>
                 ) : (
-                <BreakdownTable
-                  items={breakdown.items}
-                  showOwnership={Boolean(active.ownership)}
-                  onPickPath={
-                    tab === "child" || tab === "file"
-                      ? (p) => { setFilters((f) => ({ ...f, object_path: p })); setTab("child"); }
-                      : undefined
-                  }
-                  emptyLabel="Nothing changed under these filters."
-                />
+                  <>
+                    <TopChurnChart
+                      items={breakdown.items}
+                      label={tab === "file" ? "Top files by churn" : "Top objects by churn"}
+                    />
+                    <BreakdownTable
+                      items={breakdown.items}
+                      showOwnership={false}
+                      onPickPath={
+                        tab === "child" || tab === "file"
+                          ? (p) => { setFilters((f) => ({ ...f, object_path: p })); setTab("child"); }
+                          : undefined
+                      }
+                      emptyLabel="Nothing changed under these filters."
+                    />
+                  </>
                 )
               ) : (
                 <div className="muted small">{busy ? "computing…" : "no data"}</div>

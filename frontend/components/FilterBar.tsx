@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import type { Author, Filters } from "../lib/types";
 import { fmtDate, dateToTs } from "../lib/format";
 import TreeBrowser from "./TreeBrowser";
@@ -14,7 +14,7 @@ const PRESETS = [
   { label: "All",  from: null,                       to: null },
 ];
 
-/** Author picker: searchable checkbox list, closed by the transparent backdrop. */
+/** Always-visible author search input; dropdown appears on focus / typing. */
 function AuthorPicker({
   authors,
   selected,
@@ -26,6 +26,7 @@ function AuthorPicker({
 }) {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const rootRef = useRef<HTMLDivElement | null>(null);
 
   const list = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -38,49 +39,41 @@ function AuthorPicker({
   }, [authors, query, selected]);
 
   return (
-    <div style={{ position: "relative" }}>
-      <button className="btn" onClick={() => setOpen((o) => !o)} title="Filter by author">
-        Authors{selected.length ? ` (${selected.length})` : ""} ▾
-      </button>
+    <div ref={rootRef} style={{ position: "relative" }}>
+      <input
+        className="field"
+        style={{ width: 180 }}
+        placeholder={`Search authors${selected.length ? ` (${selected.length} active)` : ""}…`}
+        value={query}
+        title="Filter metrics by author — type to search, check to select"
+        onChange={(e) => { setQuery(e.target.value); setOpen(true); }}
+        onFocus={() => setOpen(true)}
+        onBlur={(e) => {
+          if (!rootRef.current?.contains(e.relatedTarget as Node)) setOpen(false);
+        }}
+      />
       {open && (
         <>
-          <div
-            onClick={() => setOpen(false)}
-            style={{ position: "fixed", inset: 0, zIndex: 40 }}
-          />
+          <div onClick={() => setOpen(false)}
+               style={{ position: "fixed", inset: 0, zIndex: 40 }} />
           <div
             className="panel"
             style={{
-              position: "absolute",
-              top: 34,
-              left: 0,
-              width: 360,
-              maxHeight: 340,
-              overflow: "auto",
-              zIndex: 41,
-              margin: 0,
+              position: "absolute", top: 34, left: 0, width: 360,
+              maxHeight: 320, overflow: "auto", zIndex: 41, margin: 0,
               boxShadow: "0 10px 30px rgba(0,0,0,0.45)",
             }}
           >
-            <input
-              className="field"
-              placeholder="search authors…"
-              value={query}
-              autoFocus
-              onChange={(e) => setQuery(e.target.value)}
-            />
-            <div className="small muted" style={{ margin: "6px 0" }}>
-              {authors.length.toLocaleString()} authors · checking one or more restricts the commit set
+            <div className="small muted" style={{ marginBottom: 6 }}>
+              {authors.length.toLocaleString()} authors — check to restrict H
             </div>
-            {list.length === 0 && <div className="small muted">No author matches “{query}”.</div>}
+            {list.length === 0 && <div className="small muted">No match for "{query}".</div>}
             {list.map((a) => (
               <label key={a.id} className="row" style={{ padding: "3px 0", cursor: "pointer" }}>
-                <input
-                  type="checkbox"
-                  checked={selected.includes(a.id)}
-                  onChange={() => onToggle(a.id)}
-                />
-                <span className="grow" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                <input type="checkbox" checked={selected.includes(a.id)}
+                       onChange={() => onToggle(a.id)} />
+                <span className="grow"
+                      style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                   {a.id}
                 </span>
                 <span className="small muted">{a.commits.toLocaleString()}</span>

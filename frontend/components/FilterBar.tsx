@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import type { Author, Filters } from "../lib/types";
 import { fmtDate, dateToTs } from "../lib/format";
+import TreeBrowser from "./TreeBrowser";
 
 /** Author picker: searchable checkbox list, closed by the transparent backdrop. */
 function AuthorPicker({
@@ -82,19 +83,21 @@ function AuthorPicker({
     </div>
   );
 }
-
 export default function FilterBar({
   filters,
   authors,
+  repoId,
   onChange,
   onClear,
 }: {
   filters: Filters;
   authors: Author[];
+  repoId: string | null;
   onChange: (patch: Partial<Filters>) => void;
   onClear: () => void;
 }) {
   const [pathDraft, setPathDraft] = useState(filters.object_path);
+  const [showTree, setShowTree] = useState(false);
 
   const fromValue = filters.from_ts ? fmtDate(filters.from_ts) : "";
   const toValue = filters.to_ts ? fmtDate(filters.to_ts) : "";
@@ -135,7 +138,8 @@ export default function FilterBar({
   }
 
   return (
-    <div className="panel">
+    <>
+      <div className="panel">
       <div className="row wrap" style={{ gap: 8 }}>
         <input
           className="field"
@@ -155,6 +159,11 @@ export default function FilterBar({
         >
           Apply path
         </button>
+        {repoId && (
+          <button className="btn" onClick={() => setShowTree(true)} title="Browse the file tree">
+            Browse…
+          </button>
+        )}
         <button
           className="btn"
           onClick={() => {
@@ -223,5 +232,17 @@ export default function FilterBar({
         )}
       </div>
     </div>
+
+    {showTree && repoId && (
+      <TreeBrowser
+        repoId={repoId}
+        onSelect={(p) => {
+          setPathDraft(p);
+          onChange({ object_path: p });
+        }}
+        onClose={() => setShowTree(false)}
+      />
+    )}
+    </>
   );
 }

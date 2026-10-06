@@ -257,7 +257,7 @@ export default function Home() {
               </div>
             </div>
 
-            <FilterBar filters={filters} authors={authors} onChange={patch}
+            <FilterBar filters={filters} authors={authors} repoId={selectedId} onChange={patch}
                        onClear={() => setFilters({ ...EMPTY_FILTERS, ref: filters.ref })} />
 
             <div style={{ marginTop: 16 }}>

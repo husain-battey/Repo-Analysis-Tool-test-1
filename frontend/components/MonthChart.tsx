@@ -46,10 +46,10 @@ export default function MonthChart({ items }: { items: BreakdownItem[] }) {
           <YAxis tick={{ fontSize: 11, fill: "var(--muted)" }} tickLine={false}
                  axisLine={false} tickFormatter={(v: number) => fmtNum(v)} width={46} />
           <Tooltip content={<ChurnTooltip />} cursor={{ fill: "rgba(255,255,255,0.04)" }} />
-          <Bar dataKey="added" name="Added" fill={ADDED_COLOR} radius={[2, 2, 0, 0]}>
+          <Bar dataKey="added" name="Added" fill={ADDED_COLOR} radius={0}>
             {data.map((_, i) => <Cell key={i} fill={ADDED_COLOR} />)}
           </Bar>
-          <Bar dataKey="removed" name="Removed" fill={REMOVED_COLOR} radius={[2, 2, 0, 0]}>
+          <Bar dataKey="removed" name="Removed" fill={REMOVED_COLOR} radius={0}>
             {data.map((_, i) => <Cell key={i} fill={REMOVED_COLOR} />)}
           </Bar>
         </BarChart>

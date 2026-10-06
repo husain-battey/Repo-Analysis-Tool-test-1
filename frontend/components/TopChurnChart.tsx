@@ -84,7 +84,7 @@ export default function TopChurnChart({
             content={<TopChurnTooltip />}
             cursor={{ fill: "rgba(255,255,255,0.04)" }}
           />
-          <Bar dataKey="churn" name="Churn" radius={[0, 3, 3, 0]}>
+          <Bar dataKey="churn" name="Churn" radius={0}>
             {data.map((d, i) => {
               const frac = d.churn / maxChurn;
               // gradient from accent to red based on churn magnitude

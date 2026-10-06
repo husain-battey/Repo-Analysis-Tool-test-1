@@ -41,6 +41,36 @@ cd frontend && npm install && npm run dev -- -p 3000
 3. Pick the repository, then narrow it with the filter bar and read the metric cards and
    the breakdown tables. Click a directory in the *Immediate children* table to drill in.
 
+### Dashboard features
+
+**Filter bar** — all filters are live and combine:
+
+| Filter | How |
+|---|---|
+| Path | Type a file or directory path — metrics update 600 ms after you stop typing, or press Enter / *Apply path*. Click *Browse…* to navigate the file tree. |
+| Ref | Any branch, tag, or commit sha — autocomplete dropdown lists all refs. |
+| Authors | Always-visible search input; tick one or more authors to restrict H. |
+| Time window | `from` / `to` date inputs or one-click presets: 30d / 90d / 1y / All. |
+| Commit list | *Pick commits* opens a paginated, searchable commit picker. |
+
+Active filters appear as dismissible chips under the filter bar. The `|H|` chip in the
+header shows the current commit-set size.
+
+**Author merge** — *Merge authors* opens a modal to group identities that mailmap did not
+automatically unify (e.g. same person with different email addresses). Groups persist per
+repository and are applied to every subsequent metric query.
+
+**Breakdown tabs** — four views of the same filtered metric set:
+
+| Tab | Contents |
+|---|---|
+| Immediate children | Sortable table + top-objects-by-churn bar chart |
+| Files | Flat file list with churn heat bar |
+| Authors | Ownership % donut + sortable author table |
+| By month | Commit-activity line chart + monthly churn bar chart + cumulative growth area chart |
+
+All chart and table sections are collapsible.
+
 ---
 
 ## Architecture

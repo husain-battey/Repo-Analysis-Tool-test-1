@@ -1,0 +1,22 @@
+# Local clones of the public test repositories (cJSON, redis, git)
+testrepos/
+
+# Analysis artifacts (cloned repos, zip uploads, metric caches)
+backend/data/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Misc
+.DS_Store
+*.log
